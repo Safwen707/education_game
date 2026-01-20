@@ -1,0 +1,241 @@
+/* Grid Layout - Max 4 per row */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 20px;
+    perspective: 1000px;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1200px) {
+    .cards-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 900px) {
+    .cards-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 600px) {
+    .cards-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Card Component */
+.flip-card {
+    background-color: transparent;
+    aspect-ratio: 1 / 1;
+    perspective: 1000px;
+    cursor: pointer;
+    /* Transition for layout changes if not fixed */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* FADE OUT STATE */
+.flip-card.fade-out {
+    opacity: 0;
+    pointer-events: none; /* User can't click invisible cards */
+    transform: scale(0.8);
+}
+
+/* FOCUSED CENTERING STATE */
+.flip-card.focused {
+    /* Position fixed logic handled in JS, but we define transition properties here */
+    transition: top 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                left 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+                width 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+                height 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+                transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 95vw !important;
+    max-width: 1200px !important;
+    height: 90vh !important;
+    max-height: 900px !important;
+    z-index: 9999 !important;
+    cursor: default;
+    margin: 0 !important;
+}
+
+/* Inner Container */
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    border-radius: 15px;
+}
+
+/* Hover Effect - Lift (Only if not focused) */
+.flip-card:not(.focused):hover .flip-card-inner {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+/* Flipped State */
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+/* Faces */
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+/* Flipping Fix for Chrome */
+.flip-card-inner {
+    -webkit-transform-style: preserve-3d;
+}
+
+/* Front Face (Number) */
+.flip-card-front {
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    color: white;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid rgba(255,255,255,0.1);
+}
+
+.flip-card-front h2 {
+    font-size: 5rem;
+    margin: 0;
+    text-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+.flip-card-front span {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 10px;
+    opacity: 0.9;
+}
+
+/* Back Face (Question) */
+.flip-card-back {
+    background-color: white;
+    color: #2d3436;
+    transform: rotateY(180deg);
+    border: 1px solid #dfe6e9;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 30px; /* More padding when focused/large */
+}
+
+/* CENTERED if no answers */
+.flip-card-back.no-answers {
+    justify-content: center;
+}
+
+.flip-card-back h2 {
+    font-size: 2rem; /* Larger font for focused view */
+    margin-top: 0;
+    margin-bottom: 20px;
+    line-height: 1.4;
+    width: 100%;
+    text-align: center;
+    color: #2d3436;
+}
+
+.question-reference-img {
+    max-width: 100%;
+    max-height: 250px;
+    object-fit: contain;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Choices Container */
+.choices-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Larger gap */
+    width: 100%;
+    overflow-y: auto;
+    padding-bottom: 5px;
+}
+
+/* Individual Choice Card inside Flip Card */
+.choice-card {
+    position: relative;
+    background: #f5f6fa;
+    border-radius: 10px;
+    padding: 15px 20px; /* Larger padding */
+    min-height: 60px;   /* Larger target */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    overflow: hidden;
+}
+
+.choice-card:hover {
+    background: #dcdde1;
+    transform: scale(1.02);
+}
+
+.choice-card.selected {
+    border-color: #6c5ce7;
+    background: rgba(108, 92, 231, 0.1);
+}
+
+.choice-card.correct-highlight {
+    background-color: #00b894 !important;
+    color: white !important;
+    border-color: #00b894 !important;
+}
+
+.choice-card.wrong {
+    background-color: #d63031 !important;
+    color: white !important;
+    border-color: #d63031 !important;
+    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.choice-card figure {
+    margin: 0;
+    z-index: 2;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.choice-card svg {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: auto;
+    opacity: 0.5;
+    z-index: 1;
+    pointer-events: none;
+}

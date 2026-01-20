@@ -1,0 +1,376 @@
+:root {
+    --primary-color: #6c5ce7;
+    --secondary-color: #a29bfe;
+    --background-dark: #2d3436;
+    --text-color: #2d3436;
+    --card-bg: #ffffff;
+    --success: #00b894;
+    --card-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-color);
+    background-color: #f0f2f5;
+    overflow-x: hidden;
+    height: 100vh;
+}
+
+/* Background Layer for Dynamic Images */
+#background-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease-in-out;
+    /* Default gradient if no image */
+    background: linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%);
+}
+
+#app-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Views Management */
+.view {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.view.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Typography & Layout */
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: rgb(31, 30, 30);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+h2 { font-size: 1.8rem; margin-bottom: 1rem; }
+
+/* Cards */
+.card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease;
+    backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+input[type="text"], textarea, select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #dfe6e9;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    font-family: inherit;
+}
+
+input[type="text"]:focus, textarea:focus, select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Radio Group */
+.radio-group {
+    display: flex;
+    gap: 20px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.radio-label input {
+    margin-right: 8px;
+}
+
+/* Buttons */
+.actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+    background-color: #dfe6e9;
+    color: #2d3436;
+}
+
+button.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Hidden Utility */
+.hidden {
+    display: none;
+}
+
+/* Creation Specifics */
+.answer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* Quiz View Specifics */
+.quiz-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2000;
+    box-sizing: border-box;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    border-radius: 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.quiz-content {
+    margin-top: 80px; /* Space for fixed header */
+}
+
+.timer-box, .progress-box {
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.question-card {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.choices-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 2rem;
+}
+
+/* New Artistic Choice Cards */
+.choice-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px; /* Reduced padding for container */
+    border-radius: 8px;
+    z-index: 1;
+    overflow: visible;
+    cursor: pointer;
+    min-height: 120px;
+}
+
+/* Card Accents */
+.choice-card:nth-child(1) { --cardAccent: #3f9f47; }
+.choice-card:nth-child(2) { --cardAccent: #ff3636; }
+.choice-card:nth-child(3) { --cardAccent: #00a9ff; }
+.choice-card:nth-child(4) { --cardAccent: #f1c40f; } /* Added 4th color */
+
+/* Glowing Background */
+.choice-card::after {
+    position: absolute;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    z-index: -2;
+    border-radius: 8px;
+    background-color: rgba(0,0,0,0.8); /* Slightly dark bg for contrast */
+    filter: drop-shadow(0px 0px 15px var(--cardAccent)) hue-rotate(0deg);
+    content: "";
+    opacity: 0.8;
+}
+
+.choice-card:hover::after, .choice-card.selected::after {
+    background-color: black;
+    opacity: 1;
+}
+
+/* Specific Animations for Children */
+.choice-card:nth-child(1)::after, .choice-card:nth-child(4)::after {
+    animation: hue-rotate-special 7s linear infinite reverse;
+}
+.choice-card:nth-child(2)::after {
+    animation: hue-rotate-special 9s linear infinite;
+}
+.choice-card:nth-child(3)::after {
+    animation: hue-rotate-special 5s linear infinite alternate-reverse;
+}
+
+@keyframes hue-rotate-special {
+    to { filter: drop-shadow(0px 0px 25px var(--cardAccent)) hue-rotate(360deg); }
+}
+
+/* SVG Scribble */
+.choice-card svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: visible; /* Allow stroke to go outside a bit */
+}
+
+/* SVG Animations based on child index */
+.choice-card:nth-child(1) svg, .choice-card:nth-child(4) svg {
+    stroke-dasharray: 331 66;
+    animation: dash 7s linear infinite reverse;
+}
+.choice-card:nth-child(2) svg {
+    stroke-dasharray: 307 131;
+    animation: dash2 9s linear infinite;
+}
+.choice-card:nth-child(3) svg {
+    stroke-dasharray: 309 154;
+    animation: dash3 5s linear infinite alternate-reverse;
+}
+
+@keyframes dash { to { stroke-dashoffset: -397px; filter: hue-rotate(360deg); } }
+@keyframes dash2 { to { stroke-dashoffset: -438px; filter: hue-rotate(360deg); } }
+@keyframes dash3 { to { stroke-dashoffset: -463px; filter: hue-rotate(360deg); } }
+
+/* Content Container (Figure) */
+.choice-card figure {
+    position: relative;
+    background-color: rgba(255,255,255,0.9);
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1;
+    transition: transform 0.2s;
+}
+
+.choice-card:hover figure {
+    transform: scale(0.98);
+}
+.choice-card.selected figure {
+    background-color: var(--cardAccent);
+    transform: scale(1.02);
+}
+
+/* Circle Badge */
+.choice-card figure::after {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 40px;
+    height: 40px;
+    border: 8px solid var(--cardAccent);
+    border-radius: 100%;
+    pointer-events: none;
+    z-index: 1;
+    content: "";
+    background: white;
+}
+.choice-card.selected figure::after {
+    border-color: white;
+    background: var(--cardAccent);
+}
+
+/* Answer Text */
+.choice-card figcaption {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    width: 100%;
+}
+
+.choice-card.selected figcaption {
+    color: white;
+}
+
+/* Animations for Quiz Cards */
+.question-change-enter {
+    animation: slideIn 0.5s forwards;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 600px) {
+    .answer-grid, .choices-grid {
+        grid-template-columns: 1fr;
+    }
+}

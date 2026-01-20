@@ -1,0 +1,34 @@
+{
+  "title": "My Awesome Quiz",
+  "meta": {
+    "createdAt": "2026-01-20T12:00:00Z",
+    "author": "User"
+  },
+  "settings": {
+    "language": "en",
+    "timeLimit": 30,
+    "globalBackground": null,
+    "cardBackImage": null
+  },
+  "questions": [
+    {
+      "text": "What is the capital of France?",
+      "type": "with-answer",
+      "image": null,
+      "choices": [
+        "London",
+        "Berlin",
+        "Paris",
+        "Madrid"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "text": "The Earth is round.",
+      "type": "no-answer",
+      "image": null,
+      "choices": [],
+      "correctIndex": -1
+    }
+  ]
+}
