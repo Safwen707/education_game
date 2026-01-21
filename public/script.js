@@ -688,6 +688,31 @@ function selectAnswer(card, isCorrect) {
         card.classList.add('wrong');
         // Vibrate or shake?
     }
+
+    // --- VISUAL FEEDBACK (Smiley) ---
+    const backFace = card.closest('.flip-card-back');
+    if (backFace) {
+        // Remove old feedback if exists
+        const oldFeedback = backFace.querySelector('.feedback-icon');
+        if (oldFeedback) oldFeedback.remove();
+
+        const img = document.createElement('img');
+        // Using /images/ path served by express
+        img.src = isCorrect ? '/images/correct.png' : '/images/false.png'; 
+        img.classList.add('feedback-icon');
+        img.classList.add(isCorrect ? 'animate-positive' : 'animate-negative');
+        
+        backFace.appendChild(img);
+
+        // Remove after 2 seconds with smooth fade out
+        setTimeout(() => {
+            img.classList.add('fade-out-emoji');
+            // Wait for the transition to finish (0.6s) before removing from DOM
+            setTimeout(() => {
+                if(img.parentNode) img.remove();
+            }, 600); 
+        }, 2000);
+    }
 }
 
 function nextQuestion() {
