@@ -12,13 +12,14 @@ app.use(express.json());
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Serve images from the 'images' directory
-app.use('/images', express.static(path.join(__dirname, '../images')));
+// Images are now inside public, so this explicit route is optional but good for safety if we wanted aliases.
+// But we DO need to update the API path.
 
 // API Endpoint to get list of images
 app.get('/api/images', (req, res) => {
-    const imagesDir = path.join(__dirname, '../images');
-    
+    // UPDATED PATH: Images are now inside public/images
+    const imagesDir = path.join(__dirname, '../public/images');
+
     // Check if directory exists
     if (!fs.existsSync(imagesDir)) {
         return res.status(404).json({ error: 'Images directory not found' });
