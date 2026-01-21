@@ -697,8 +697,8 @@ function selectAnswer(card, isCorrect) {
         if (oldFeedback) oldFeedback.remove();
 
         const img = document.createElement('img');
-        // Using /images/ path served by express
-        img.src = isCorrect ? '/images/correct.png' : '/images/false.png'; 
+        // Using relative path for GitHub Pages compatibility
+        img.src = isCorrect ? 'images/correct.png' : 'images/false.png'; 
         img.classList.add('feedback-icon');
         img.classList.add(isCorrect ? 'animate-positive' : 'animate-negative');
         
