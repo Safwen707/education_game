@@ -697,10 +697,12 @@ function selectAnswer(card, isCorrect) {
         if (oldFeedback) oldFeedback.remove();
 
         const img = document.createElement('img');
-        // Using relative path for GitHub Pages compatibility
-        img.src = isCorrect ? 'images/correct.png' : 'images/false.png'; 
+        // Updated names to avoid caching
+        img.src = isCorrect ? 'images/img_correct.png' : 'images/img_false.png'; 
         img.classList.add('feedback-icon');
         img.classList.add(isCorrect ? 'animate-positive' : 'animate-negative');
+        
+        img.onerror = () => { console.error('Failed to load smiley image:', img.src); };
         
         backFace.appendChild(img);
 
